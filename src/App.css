@@ -1,24 +1,130 @@
-.App {
+
+/**
+ *	App Wrapper
+**/
+.App-wrapper {
+	/* Positioning */
+	position: relative;
+	width: 100%;
+	max-width: 500px;
+
+	/* Spacing */
+	margin: 2em auto 0px;
+	padding: 12px 0px 20px;
+
+	/* Styling */
+	background: #EEE;
+	box-shadow: 0px 3px 6px #CCC;
+}
+
+@media screen and (min-width: 500px) {
+	.App-wrapper {
+		border-radius: 12px;
+	}
+}
+
+
+/**
+ *	Scoreboard
+**/
+.Scoreboard-header {
+	margin-bottom: 10px;
 	text-align: center;
 }
 
-.App-logo {
-	animation: App-logo-spin infinite 20s linear;
-	height: 80px;
+.Scoreboard-title {
+	font-size: 1.2em;
+	margin: 0px;
+}
+@media screen and (min-width:500px) {
+	.Scoreboard-title {
+		font-size: 1.8em;
+	}
 }
 
-.App-header {
-	background-color: #222;
-	height: 150px;
-	padding: 20px;
-	color: white;
+
+/**
+ *	Players
+**/
+.Player {
+	padding: 0.5em 20px;
+	background: #CCC;
+	font-size: .75em;
+}
+@media screen and (min-width:500px) {
+	.Player {
+		font-size: .9em;
+	}
 }
 
-.App-intro {
-	font-size: large;
+.Player::first {
+	padding-top: 0px;
 }
 
-@keyframes App-logo-spin {
-	from { transform: rotate(0deg); }
-	to { transform: rotate(360deg); }
+.Player::last {
+	padding-bottom: 0px;
 }
+
+.Player:nth-child(2) {
+	background: #DDD;
+}
+
+.Player-name,
+.Player-score,
+.Player-buttons {
+	display: inline-block;
+	vertical-align: baseline;
+}
+
+.Player-text {
+	font-size: 1.7em;
+}
+
+.Player-name {
+	font-weight: 600;
+	width: calc(100% - 105px);
+}
+
+.Player-score {
+	width: 80px;
+	text-align: center;
+	font-weight: 600;
+}
+
+.Player-buttons {
+	width: 25px;
+	text-align: center;
+	font-size: .5em;
+}
+
+
+/**
+ *	Buttons
+**/
+.button {
+	cursor: pointer;
+}
+
+.button:hover {
+	color: #82fff8;
+	background: #444;
+}
+
+.Player-buttons .button {
+	height: 1.5em;
+	padding-top: .25em;
+	box-sizing: border-box;
+}
+
+.button-up {
+	background: #999;
+	border-radius: 5px 5px 0px 0px;
+	border-bottom: 1px solid #777;
+}
+
+.button-down {
+	background: #999;
+	border-radius: 0px 0px 5px 5px;
+}
+
+
