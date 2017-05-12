@@ -6,18 +6,11 @@ import Counter from './Counter';
 
 class Player extends Component {
 
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		name: this.props.name,
-	// 		score: this.props.score
-	// 	}
-	// }
 
-	propTypes = {
+	static propTypes = {
 		name: React.PropTypes.string.isRequired,
 		score: React.PropTypes.number.isRequired,
-		onScoreChage: React.PropTypes.func.isRequired,
+		onScoreChage: React.PropTypes.func,
 	}
 
 	render() {

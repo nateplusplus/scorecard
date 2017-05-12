@@ -4,16 +4,10 @@ import './App.css';
 
 class Counter extends Component {
 
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		score: this.props.score
-	// 	}
-	// }
 
-	propTypes = {
+	static propTypes = {
 		score: React.PropTypes.number.isRequired,
-		onChange: React.PropTypes.func.isRequired,
+		onChange: React.PropTypes.func,
 	}
 
 	render() {

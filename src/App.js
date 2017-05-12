@@ -8,13 +8,14 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			players: this.props.initialPlayers
-		}
+			players: this.props.initialPlayers,
+			title: this.props.title
+		};
 	}
 
-	propTypes = {
+	static propTypes = {
 		title: React.PropTypes.string,
-		players: React.PropTypes.arrayOf(React.PropTypes.shape({
+		initialPlayers: React.PropTypes.arrayOf(React.PropTypes.shape({
 			id: React.PropTypes.number.isRequired,
 			name: React.PropTypes.string.isRequired,
 			score: React.PropTypes.number.isRequired,
@@ -22,8 +23,10 @@ class App extends Component {
 	}
 
 	onScoreChange = function(index, delta) {
-		console.log('delta: ' + delta);
-		this.state.players[index].score += delta;
+		const players = this.state.players;
+		players[index].score += delta;
+
+		this.setState({ players });
 	}
 
 	render() {
@@ -39,14 +42,14 @@ class App extends Component {
 						<div className="Scoreboard-list">
 							{this.state.players.map(function(player, index) {
 								return <Player
-											onScoreChange = {
+											onScoreChange={
 												function(delta) {
 													this.onScoreChange(index, delta);
 												}.bind(this)
 											}
-											name = {player.name}
-											score = {player.score}
-											key = {player.id}
+											name={player.name}
+											score={player.score}
+											key={player.id}
 										/>
 							}.bind(this))}
 						</div>
