@@ -21,6 +21,11 @@ class App extends Component {
 		})).isRequired,
 	}
 
+	onScoreChange = function(index, delta) {
+		console.log('delta: ' + delta);
+		this.state.players[index].score += delta;
+	}
+
 	render() {
 		return (
 			<div className="App-container">
@@ -32,9 +37,18 @@ class App extends Component {
 							</h3>
 						</div>
 						<div className="Scoreboard-list">
-							{this.state.players.map(function(player) {
-								return <Player name={player.name} score={player.score} key={player.id} />
-							})}
+							{this.state.players.map(function(player, index) {
+								return <Player
+											onScoreChange = {
+												function(delta) {
+													this.onScoreChange(index, delta);
+												}.bind(this)
+											}
+											name = {player.name}
+											score = {player.score}
+											key = {player.id}
+										/>
+							}.bind(this))}
 						</div>
 					</div>
 				</div>
