@@ -13,11 +13,14 @@ class Counter extends Component {
 	render() {
 		return (
 			<div className="Player-buttons">
-				<div className="button button-up" onClick={function(){this.props.onChange(1);}.bind(this)}>
-					<i className="fa fa-chevron-up fa-fw"></i>
-				</div>
 				<div className="button button-down" onClick={function(){this.props.onChange(-1);}.bind(this)}>
-					<i className="fa fa-chevron-down fa-fw"></i>
+					<i className="fa fa-minus fa-fw"></i>
+				</div>
+				<div className="Player-score Player-text">
+					{this.props.score}
+				</div>
+				<div className="button button-up" onClick={function(){this.props.onChange(1);}.bind(this)}>
+					<i className="fa fa-plus fa-fw"></i>
 				</div>
 			</div>
 		);

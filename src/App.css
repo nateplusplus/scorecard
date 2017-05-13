@@ -1,7 +1,7 @@
 
-/**
- *	App Wrapper
-**/
+/*****************************************************
+ 				App Wrapper
+*****************************************************/
 .App-wrapper {
 	/* Positioning */
 	position: relative;
@@ -24,9 +24,9 @@
 }
 
 
-/**
- *	Scoreboard
-**/
+/*****************************************************
+				Scoreboard
+*****************************************************/
 .Scoreboard-header {
 	margin-bottom: 10px;
 	text-align: center;
@@ -43,9 +43,9 @@
 }
 
 
-/**
- *	Players
-**/
+/*****************************************************
+			Players
+*****************************************************/
 .Player {
 	padding: 0.5em 20px;
 	background: #CCC;
@@ -70,7 +70,6 @@
 }
 
 .Player-name,
-.Player-score,
 .Player-buttons {
 	display: inline-block;
 	vertical-align: baseline;
@@ -82,25 +81,38 @@
 
 .Player-name {
 	font-weight: 600;
-	width: calc(100% - 105px);
+	width: calc(100% - 122px);
+}
+
+
+/*****************************************************
+			Counter
+*****************************************************/
+
+.Player-buttons {
+	text-align: center;
+	font-size: .5em;
+	width: 122px;
 }
 
 .Player-score {
-	width: 80px;
+	display: inline-block;
 	text-align: center;
 	font-weight: 600;
+	font-size: 4.5em;
+	background: #333;
+	color: #DDD;
+	padding: 5px;
+	line-height: 1;
+	box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+@media screen and (min-width:500px) {
+	.Player-score {
+		font-size: 4em;
+		height: 28px;
+	}
 }
 
-.Player-buttons {
-	width: 25px;
-	text-align: center;
-	font-size: .5em;
-}
-
-
-/**
- *	Buttons
-**/
 .button {
 	cursor: pointer;
 }
@@ -111,20 +123,23 @@
 }
 
 .Player-buttons .button {
-	height: 1.5em;
+	display: inline-block;
 	padding-top: .25em;
 	box-sizing: border-box;
+	width: 37px;
+	height: 37px;
+	vertical-align: top;
+	box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+	font-size: 4em;
+	background: #999;
 }
 
 .button-up {
-	background: #999;
-	border-radius: 5px 5px 0px 0px;
-	border-bottom: 1px solid #777;
+	border-radius: 0px 5px 5px 0px;
 }
 
 .button-down {
-	background: #999;
-	border-radius: 0px 0px 5px 5px;
+	border-radius: 5px 0px 0px 5px;
 }
 
 

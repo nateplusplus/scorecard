@@ -19,9 +19,6 @@ class Player extends Component {
 				<div className="Player-name Player-text">
 					{this.props.name}
 				</div>
-				<div className="Player-score Player-text">
-					{this.props.score}
-				</div>
 				<Counter score={this.props.score} onChange={this.props.onScoreChange}/>
 			</div>
 		);
