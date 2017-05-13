@@ -52,6 +52,11 @@ class App extends Component {
 											key={player.id}
 										/>
 							}.bind(this))}
+							<div className="Player Player-add">
+								<div className="Player-name Player-text">
+									Add Player +
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
