@@ -4,28 +4,10 @@ import App from './App';
 import './index.css';
 import './css/font-awesome.min.css';
 
-var PLAYERS = [
-	{
-		id: 1,
-		name: "Nathan Blair",
-		score: 31,
-	},
-	{
-		id: 2,
-		name: "Melyssa Vazquez",
-		score: 35,
-	},
-	{
-		id: 3,
-		name: "Smokey Blair",
-		score: 42,
-	},
-];
-
 var defaultTitle = "Simple Scoreboard";
 
 var http = require('http');
-var req = http.get('http://localhost:55414', (res) => {
+var req = http.get('http://localhost:55414/game/hello', (res) => {
 	const statusCode = res.statusCode;
 	const contentType = res.headers['content-type'];
 
@@ -51,6 +33,10 @@ var req = http.get('http://localhost:55414', (res) => {
 		try {
 			let parsedData = JSON.parse(rawData);
 			defaultTitle = parsedData[0].title;
+
+			if (parsedData[0].hasOwnProperty('players')) {
+				var PLAYERS = parsedData[0].players;
+			}
 
 			ReactDOM.render(
 				<App initialPlayers={PLAYERS} title={defaultTitle} />,
