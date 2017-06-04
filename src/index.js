@@ -4,7 +4,6 @@ import App from './App';
 import './index.css';
 import './css/font-awesome.min.css';
 
-var defaultTitle = "Simple Scoreboard";
 
 var http = require('http');
 var req = http.get('http://localhost:55414/game/hello', (res) => {
@@ -32,14 +31,22 @@ var req = http.get('http://localhost:55414/game/hello', (res) => {
 	res.on('end', () => {
 		try {
 			let parsedData = JSON.parse(rawData);
-			defaultTitle = parsedData[0].title;
 
+			var cardTitle = "Simple Scoreboard";
 			if (parsedData[0].hasOwnProperty('players')) {
-				var PLAYERS = parsedData[0].players;
+				cardTitle = parsedData[0].title;
+			}
+
+			// Default blank scorecard
+			var players = [{"id" : 0, "name" : "New Player", "score" : 0}];
+
+			// Get players if they exist
+			if (parsedData[0].hasOwnProperty('players')) {
+				players = parsedData[0].players;
 			}
 
 			ReactDOM.render(
-				<App initialPlayers={PLAYERS} title={defaultTitle} />,
+				<App initialPlayers={players} title={cardTitle} url={parsedData[0].url} />,
 				document.getElementById('root')
 			);
 		} catch (e) {
