@@ -30,43 +30,56 @@ class App extends Component {
 				player.score += delta;
 
 				// Send data to our api to save
-				var url = "http://localhost:55414/update/" + this.props.url + "/player/" + playerId;
+				var http = require('http');
 
-				// var http = require('http');
-				// var req = http.post(url, (res) => {
-				// 	const statusCode = res.statusCode;
-				// 	const contentType = res.headers['content-type'];
-				// 
-				// 	let error;
-				// 	if (statusCode !== 200) {
-				// 		error = new Error(`Request Failed.\n` +
-				// 											`Status Code: ${statusCode}`);
-				// 	} else if (!/^application\/json/.test(contentType)) {
-				// 		error = new Error(`Invalid content-type.\n` +
-				// 						`Expected application/json but received ${contentType}`);
-				// 	}
-				// 	if (error) {
-				// 		console.log(error.message);
-				// 		// consume response data to free up memory
-				// 		res.resume();
-				// 		return;
-				// 	}
-				// 
-				// 	res.setEncoding('utf8');
-				// 	let rawData = '';
-				// 	res.on('data', (chunk) => rawData += chunk);
-				// 	res.on('end', () => {
-				// 		try {
-				// 			let parsedData = JSON.parse(rawData);
-				// 			console.log(parsedData);
-				// 		} catch (e) {
-				// 			console.log(e.message);
-				// 		}
-				// 	});
-				// });
+				// Storing this stuff in variables so we can change it on local vs production server
+				var host = "localhost",
+					port = 55414,
+					postData = JSON.stringify([{"score" : player.score}]),
+					options = {
+						method	 : 'POST',
+						hostname : host,
+						port	 : port,
+						path 	 : "/update/" + this.props.url + "/player/" + playerId + "/score",
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					};
 
+				var req = http.request( options, (res) => {
+
+					// What's the status?
+					console.log(`STATUS: ${res.statusCode}`);
+					console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+
+					// Get the response
+					res.setEncoding('utf8');
+					let rawData = '';
+					res.on('data', (chunk) => rawData += chunk);
+					res.on('end', () => {
+						try {
+							let parsedData = JSON.parse(rawData);
+							console.log(parsedData);
+						} catch (e) {
+							console.log(e.message);
+						}
+					});
+				});
+
+				// Handle Errors
+				req.on('error', (e) => {
+					console.log(e);
+					console.log(`problem with request: ${e.message}`);
+				});
+
+				// write data to request body
+				req.write(postData);
+				req.end();
+
+
+				// Now set the state for our player score in local storage
 				this.setState({ players });
-			
+
 			}
 		}.bind(this));
 	}
