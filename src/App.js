@@ -46,25 +46,7 @@ class App extends Component {
 						}
 					};
 
-				var req = http.request( options, (res) => {
-
-					// What's the status?
-					console.log(`STATUS: ${res.statusCode}`);
-					console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-
-					// Get the response
-					res.setEncoding('utf8');
-					let rawData = '';
-					res.on('data', (chunk) => rawData += chunk);
-					res.on('end', () => {
-						try {
-							let parsedData = JSON.parse(rawData);
-							console.log(parsedData);
-						} catch (e) {
-							console.log(e.message);
-						}
-					});
-				});
+				var req = http.request( options );
 
 				// Handle Errors
 				req.on('error', (e) => {
@@ -75,7 +57,6 @@ class App extends Component {
 				// write data to request body
 				req.write(postData);
 				req.end();
-
 
 				// Now set the state for our player score in local storage
 				this.setState({ players });
