@@ -6,11 +6,16 @@ import Player from './Player';
 class App extends Component {
 
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
 			players: this.props.initialPlayers,
 			title: this.props.title
-		};
+		}
+
+		this.onScoreChange = this.onScoreChange.bind(this)
+		this.handleTitleChange = this.handleTitleChange.bind(this)
+		this.handleTitleBlur = this.handleTitleBlur.bind(this)
+
 	}
 
 	static propTypes = {
@@ -22,6 +27,8 @@ class App extends Component {
 			score: React.PropTypes.number.isRequired,
 		})).isRequired,
 	}
+
+	static saveValue = false;
 
 	onScoreChange = function(playerId, delta) {
 		const players = this.state.players;
@@ -65,15 +72,62 @@ class App extends Component {
 		}.bind(this));
 	}
 
+	handleTitleChange = function(event) {
+		this.setState({ "title" : event.target.value });
+		// Take note of this change so we no to send to backend
+		this.saveValue = true;
+	}
+
+	handleTitleBlur = function(event) {
+
+		// First check if there's anything to save
+		if (this.saveValue) {
+			// Send data to our api to save
+			var http = require('http');
+
+			// Storing this stuff in variables so we can change it on local vs production server
+			var host = "localhost",
+				port = 55414,
+				postData = JSON.stringify([{"title" : this.state.title}]),
+				options = {
+					method	 : 'POST',
+					hostname : host,
+					port	 : port,
+					path 	 : "/update/" + this.props.url,
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				};
+
+			var req = http.request( options );
+
+			// Handle Errors
+			req.on('error', (e) => {
+				console.log(e);
+				console.log(`problem with request: ${e.message}`);
+			});
+
+			// write data to request body
+			req.write(postData);
+			req.end();
+
+			this.saveValue = false;
+		}
+	}
+
 	render() {
 		return (
 			<div className="App-container">
 				<div className="App-wrapper">
 					<div className="Scoreboard">
 						<div className="Scoreboard-header">
-							<h3 className="Scoreboard-title">
-								{this.props.title}
-							</h3>
+							<input
+								type="text"
+								className="Scoreboard-title"
+								value={this.state.title}
+								onChange={this.handleTitleChange}
+								onBlur={this.handleTitleBlur}
+							/>
 						</div>
 						<div className="Scoreboard-list">
 							{this.state.players.map(function(player, index) {
