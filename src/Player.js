@@ -10,16 +10,21 @@ class Player extends Component {
 	static propTypes = {
 		name: React.PropTypes.string.isRequired,
 		score: React.PropTypes.number.isRequired,
-		onScoreChage: React.PropTypes.func,
+		onScoreChange: React.PropTypes.func,
+		onNameChange: React.PropTypes.func,
+		onNameBlur: React.PropTypes.func,
 	}
 
 	render() {
 		return (
 			<div className="Player">
-				<div className="Player-name Player-text">
-					{this.props.name}
-				</div>
-				<Counter score={this.props.score} onChange={this.props.onScoreChange}/>
+				<input
+					className="Player-name Player-text"
+					value={this.props.name}
+					onChange={function(event) { this.props.onNameChange(event.target.value); }.bind(this)}
+					onBlur={function(event) { this.props.onNameBlur(event); }.bind(this)}
+				/>
+				<Counter score={this.props.score} onScoreChange={this.props.onScoreChange}/>
 			</div>
 		);
 	}

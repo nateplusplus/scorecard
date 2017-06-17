@@ -15,6 +15,8 @@ class App extends Component {
 		this.onScoreChange = this.onScoreChange.bind(this)
 		this.handleTitleChange = this.handleTitleChange.bind(this)
 		this.handleTitleBlur = this.handleTitleBlur.bind(this)
+		this.handleNameChange = this.handleNameChange.bind(this)
+		this.handleNameBlur = this.handleNameBlur.bind(this)
 
 	}
 
@@ -115,6 +117,56 @@ class App extends Component {
 		}
 	}
 
+
+	handleNameChange = function(playerId, value) {
+		const players = this.state.players;
+		players.map(function(player, index){
+			if (player.id === playerId) {
+				player.name = value;
+				this.setState({ players });
+				this.saveValue = true;
+			}
+		}.bind(this));
+	}
+
+	handleNameBlur = function(playerId, event) {
+
+		// First check if there's anything to save
+		if (this.saveValue) {
+			// Send data to our api to save
+			var http = require('http');
+
+			// Storing this stuff in variables so we can change it on local vs production server
+			var host = "localhost",
+				port = 55414,
+				postData = JSON.stringify( [{ "player_id" : playerId, "set" : { "name" : this.state.players[playerId].name } }] ),
+				options = {
+					method	 : 'POST',
+					hostname : host,
+					port	 : port,
+					path 	 : "/update/" + this.props.url,
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				};
+
+			var req = http.request( options );
+
+			// Handle Errors
+			req.on('error', (e) => {
+				console.log(e);
+				console.log(`problem with request: ${e.message}`);
+			});
+
+			// write data to request body
+			req.write(postData);
+			req.end();
+
+			this.saveValue = false;
+		}
+	}
+
+
 	render() {
 		return (
 			<div className="App-container">
@@ -135,6 +187,16 @@ class App extends Component {
 											onScoreChange={
 												function(delta) {
 													this.onScoreChange(player.id, delta);
+												}.bind(this)
+											}
+											onNameChange={
+												function (value) {
+													this.handleNameChange(player.id, value);
+												}.bind(this)
+											}
+											onNameBlur={
+												function (event) {
+													this.handleNameBlur(player.id, event);
 												}.bind(this)
 											}
 											name={player.name}
