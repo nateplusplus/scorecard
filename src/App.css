@@ -47,7 +47,18 @@
 .Scoreboard-title {
 	font-size: 1.2em;
 	margin: 0px;
+
+	/* Remove browser defaults for input elements */
+	background: transparent;
+	border: none;
+	text-align: center;
 }
+
+.Scoreboard-title:focus {
+	background: white;
+}
+
+
 @media screen and (min-width:500px) {
 	.Scoreboard-title {
 		font-size: 1.8em;
@@ -101,6 +112,14 @@
 	width: calc(100% - 110px);
 	padding: 0px 10px;
 	box-sizing: border-box;
+
+	/* Remove browser defaults for input elements */
+	background: transparent;
+	border: none;
+}
+
+.Player-name:focus {
+	background: white;
 }
 
 
