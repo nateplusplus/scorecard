@@ -17,6 +17,7 @@ class App extends Component {
 		this.handleTitleBlur = this.handleTitleBlur.bind(this)
 		this.handleNameChange = this.handleNameChange.bind(this)
 		this.handleNameBlur = this.handleNameBlur.bind(this)
+		this.addPlayerRow = this.addPlayerRow.bind(this)
 
 	}
 
@@ -139,7 +140,7 @@ class App extends Component {
 			// Storing this stuff in variables so we can change it on local vs production server
 			var host = "localhost",
 				port = 55414,
-				postData = JSON.stringify( [{ "player_id" : playerId, "set" : { "name" : this.state.players[playerId].name } }] ),
+				postData = JSON.stringify( [{ "player_id" : playerId, "player" : this.state.players[playerId] }] ),
 				options = {
 					method	 : 'POST',
 					hostname : host,
@@ -164,6 +165,29 @@ class App extends Component {
 
 			this.saveValue = false;
 		}
+	}
+
+
+	addPlayerRow = function() {
+		// Add an empty player to the players array
+		var players = this.state.players,
+			maxId = 0;
+		
+		// Find the highest id for this scorecard (some players could have been removed)
+		players.map(function(player, index){
+			if (maxId < player.id) {
+				maxId = player.id;
+			}
+			return true;
+		});
+		
+		players.push({
+			"id"   : maxId+1,
+			"name" : "New Player",
+			"score": 0,
+		});
+		this.setState({ players });
+		console.log(this.state.players);
 	}
 
 
@@ -205,9 +229,9 @@ class App extends Component {
 										/>
 							}.bind(this))}
 							<div className="Player Player-add">
-								<div className="Player-name Player-text">
+								<button className="Player-name Player-text" onClick={this.addPlayerRow}>
 									Add Player +
-								</div>
+								</button>
 							</div>
 						</div>
 					</div>

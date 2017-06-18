@@ -192,6 +192,7 @@
 .Player-add .Player-text {
 	font-weight: 200;
 	font-size: 1.15em;
+	cursor: pointer;
 }
 
 .Player-add:hover {
