@@ -6,7 +6,10 @@ import './css/font-awesome.min.css';
 
 
 var http = require('http');
-var req = http.get('http://localhost:55414/game/hello', (res) => {
+
+var reqUrl = window.location.protocol + '//' + window.location.hostname + ':55414' + window.location.pathname;
+
+var req = http.get(reqUrl, (res) => {
 	const statusCode = res.statusCode;
 	const contentType = res.headers['content-type'];
 
@@ -33,7 +36,7 @@ var req = http.get('http://localhost:55414/game/hello', (res) => {
 			let parsedData = JSON.parse(rawData);
 
 			var cardTitle = "Simple Scoreboard";
-			if (parsedData[0].hasOwnProperty('players')) {
+			if (parsedData.length > 0 && parsedData[0].hasOwnProperty('title')) {
 				cardTitle = parsedData[0].title;
 			}
 
@@ -41,7 +44,7 @@ var req = http.get('http://localhost:55414/game/hello', (res) => {
 			var players = [{"id" : 0, "name" : "New Player", "score" : 0}];
 
 			// Get players if they exist
-			if (parsedData[0].hasOwnProperty('players')) {
+			if (parsedData.length > 0 && parsedData[0].hasOwnProperty('players')) {
 				players = parsedData[0].players;
 			}
 

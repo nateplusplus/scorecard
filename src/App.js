@@ -88,21 +88,47 @@ class App extends Component {
 			// Send data to our api to save
 			var http = require('http');
 
-			// Storing this stuff in variables so we can change it on local vs production server
-			var host = "localhost",
-				port = 55414,
-				postData = JSON.stringify([{"title" : this.state.title}]),
+			// Setup our AJAX request params
+			var postData = JSON.stringify([{"title" : this.state.title}]),
 				options = {
 					method	 : 'POST',
-					hostname : host,
-					port	 : port,
-					path 	 : "/update/" + this.props.url,
+					hostname : "localhost",
+					port	 : 55414,
 					headers: {
 						'Content-Type': 'application/json'
 					}
 				};
 
-			var req = http.request( options );
+			// If the url = NEW, create a new record
+			if(this.props.url === "NEW") {
+					options.path = "/create";
+			}
+			else {
+				// else, update the existing record
+				options.path = "/update/" + this.props.url;
+			}
+
+			// On success, make sure we're at the correct url (if we created a new one)
+			var callback = function(response) {
+				var str = '';
+
+				//another chunk of data has been recieved, so append it to `str`
+				response.on('data', function (chunk) {
+					str += chunk;
+				});
+
+				//the whole response has been recieved, so we just print it out here
+				response.on('end', function () {
+					var parsedData = JSON.parse(str),
+						newUrl = '/game/'+parsedData[0].url;
+
+					if( newUrl !== window.location.path) {
+						window.location = newUrl;
+					}
+				});
+			}
+
+			var req = http.request( options, callback );
 
 			// Handle Errors
 			req.on('error', (e) => {
